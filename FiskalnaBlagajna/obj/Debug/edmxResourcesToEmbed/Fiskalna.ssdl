@@ -1,0 +1,74 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="FiskalnaBlagajnaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="ItemSectionTable">
+    <Key>
+      <PropertyRef Name="ItemID" />
+      <PropertyRef Name="SectionID" />
+    </Key>
+    <Property Name="ItemID" Type="int" Nullable="false" />
+    <Property Name="SectionID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="ItemTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="char" MaxLength="20" Nullable="false" />
+    <Property Name="Price" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+    <Property Name="Quantity" Type="int" />
+    <Property Name="Tax" Type="int" />
+  </EntityType>
+  <EntityType Name="SectionTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="char" MaxLength="20" Nullable="false" />
+  </EntityType>
+  <EntityType Name="UserTable">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="char" MaxLength="20" Nullable="false" />
+    <Property Name="Role" Type="char" MaxLength="10" Nullable="false" />
+  </EntityType>
+  <Association Name="FK_ItemSectionTable_ItemTabel">
+    <End Role="ItemTable" Type="Self.ItemTable" Multiplicity="1" />
+    <End Role="ItemSectionTable" Type="Self.ItemSectionTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="ItemTable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ItemSectionTable">
+        <PropertyRef Name="ItemID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_ItemSectionTable_SectionTable">
+    <End Role="SectionTable" Type="Self.SectionTable" Multiplicity="1" />
+    <End Role="ItemSectionTable" Type="Self.ItemSectionTable" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SectionTable">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="ItemSectionTable">
+        <PropertyRef Name="SectionID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="FiskalnaBlagajnaModelStoreContainer">
+    <EntitySet Name="ItemSectionTable" EntityType="Self.ItemSectionTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="ItemTable" EntityType="Self.ItemTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SectionTable" EntityType="Self.SectionTable" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="UserTable" EntityType="Self.UserTable" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_ItemSectionTable_ItemTabel" Association="Self.FK_ItemSectionTable_ItemTabel">
+      <End Role="ItemTable" EntitySet="ItemTable" />
+      <End Role="ItemSectionTable" EntitySet="ItemSectionTable" />
+    </AssociationSet>
+    <AssociationSet Name="FK_ItemSectionTable_SectionTable" Association="Self.FK_ItemSectionTable_SectionTable">
+      <End Role="SectionTable" EntitySet="SectionTable" />
+      <End Role="ItemSectionTable" EntitySet="ItemSectionTable" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>
